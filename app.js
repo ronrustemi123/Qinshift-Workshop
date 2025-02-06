@@ -73,126 +73,48 @@ const handleError = (err, msg) => {
 }
 
 
-const fetchShips = async (url) => {
+const fetchAll = async (url, rowData) => {
     try {
-        handleError(false, '')
-        handleLoading(true)
-        const res = await fetch(url)
-        handleLoading(false)
+        handleError(false, '');
+        handleLoading(true);
+        const res = await fetch(url);
+        handleLoading(false);
 
-        const data = await res.json()
+        const data = await res.json();
 
+        let tableRowsHTML = '';
+        data.results.forEach(dataRes => {
+            let rowHTML = '<tr>';
+            rowData.forEach(el => {
+                if (el !== 'films[length]') {
+                    rowHTML += `<td>${dataRes[el]}</td>`;
+                } else {
+                    rowHTML += `<td>${dataRes.films.length}</td>`;
+                }
+            });
+            rowHTML += '</tr>';
+            tableRowsHTML += rowHTML;
+        });
 
-        let rowHTML = ``
-        tableBody.innerHTML = ``
-        data.results.forEach(el => {
-            const row = document.createElement('tr')
-            rowHTML = `
-            <td>${el.name}</td>
-            <td>${el.model}</td>
-            <td>${el.manufacturer}</td>
-            <td>$${el.cost_in_credits}</td>
-            <td>${el.crew}</td>
-            <td>${el.passengers}</td>
-            <td>${el.starship_class}</td>
-        `
-            row.innerHTML = rowHTML
-            rowHTML = ``
-            tableBody.appendChild(row)
-        })
+        tableBody.innerHTML = tableRowsHTML;
 
-        prevBtn.disabled = !data.previous
-        nextBtn.disabled = !data.next
+        prevBtn.disabled = !data.previous;
+        nextBtn.disabled = !data.next;
 
-        prevBtn.onclick = () => fetchShips(data.previous)
-        nextBtn.onclick = () => fetchShips(data.next)
+        prevBtn.onclick = () => fetchAll(data.previous, rowData);
+        nextBtn.onclick = () => fetchAll(data.next, rowData);
     } catch (error) {
-        console.log(error)
-        handleError(true, `Failed to fetch ships`)
+        console.error(error);
+        handleError(true, 'Failed to fetch planets');
     }
-}
-
-const fetchPeople = async (url) => {
-    try {
-        handleError(false, '')
-        handleLoading(true)
-        const res = await fetch(url)
-        handleLoading(false)
-
-        const data = await res.json()
-
-
-        let rowHTML = ``
-        tableBody.innerHTML = ``
-        data.results.forEach(el => {
-            const row = document.createElement('tr')
-            rowHTML = `
-                            <td>${el.name}</td>
-                    <td>${el.height}cm</td>
-                    <td>${el.mass}kg</td>
-                    <td>${el.gender}</td>
-                    <td>${el.birth_year}</td>
-                    <td>${el.films.length}</td>
-            `
-            row.innerHTML = rowHTML
-            rowHTML = ``
-            tableBody.appendChild(row)
-        })
-
-        prevBtn.disabled = !data.previous
-        nextBtn.disabled = !data.next
-
-        prevBtn.onclick = () => fetchPeople(data.previous)
-        nextBtn.onclick = () => fetchPeople(data.next)
-    } catch (error) {
-        console.log(error)
-        handleError(true, `Failed to fetch people`)
-    }
-}
-
-const fetchPlanets = async (url) => {
-    try {
-        handleError(false, '')
-        handleLoading(true)
-        const res = await fetch(url)
-        handleLoading(false)
-
-        const data = await res.json()
-
-
-        let rowHTML = ``
-        tableBody.innerHTML = ``
-        data.results.forEach(el => {
-            const row = document.createElement('tr')
-            rowHTML = `
-                            <td>${el.name}</td>
-                    <td>${el.population}</td>
-                    <td>${el.climate}</td>
-                    <td>${el.gravity}</td>
-                    <td>${el.terrain}</td>
-            `
-            row.innerHTML = rowHTML
-            rowHTML = ``
-            tableBody.appendChild(row)
-        })
-
-        prevBtn.disabled = !data.previous
-        nextBtn.disabled = !data.next
-
-        prevBtn.onclick = () => fetchPlanets(data.previous)
-        nextBtn.onclick = () => fetchPlanets(data.next)
-    } catch (error) {
-        console.log(error)
-        handleError(true, `Failed to fetch planets`)
-    }
-}
+};
 
 shipBtn.addEventListener('click', () => {
     mainContent.style.display = 'block'
     tableTitleSpan.textContent = 'Starship'
 
     tableHeadRow.innerHTML = shipTableColumns
-    fetchShips(SHIPS_URL)
+    fetchAll(SHIPS_URL, ['name', 'model', 'manufacturer', 'cost_in_credits', 'crew', 'passengers', 'starship_class'])
 
 })
 
@@ -202,7 +124,7 @@ personBtn.addEventListener("click", () => {
     tableTitleSpan.textContent = 'Person'
 
     tableHeadRow.innerHTML = personTableColumns
-    fetchPeople(PEOPLE_URL)
+    fetchAll(PEOPLE_URL, ['name', 'height', 'mass', 'gender', 'birth_year', 'films[length]'])
 
 })
 planetBtn.addEventListener("click", () => {
@@ -210,6 +132,6 @@ planetBtn.addEventListener("click", () => {
     tableTitleSpan.textContent = 'Planet'
 
     tableHeadRow.innerHTML = planetsTableColumns
-    fetchPlanets(PLANETS_URL)
+    fetchAll(PLANETS_URL, ['name', 'population', 'climate', 'gravity', 'terrain'])
 
 })
