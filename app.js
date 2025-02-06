@@ -98,14 +98,32 @@ const fetchAll = async (url, rowData) => {
 
         tableBody.innerHTML = tableRowsHTML;
 
-        prevBtn.disabled = !data.previous;
-        nextBtn.disabled = !data.next;
+        btnContainer.innerHTML = '';
 
-        prevBtn.onclick = () => fetchAll(data.previous, rowData);
-        nextBtn.onclick = () => fetchAll(data.next, rowData);
+        const prevBtn = document.createElement('button');
+        const nextBtn = document.createElement('button');
+
+        prevBtn.textContent = 'Previous';
+        nextBtn.textContent = 'Next';
+
+        prevBtn.addEventListener('click', () => {
+            if (data.previous) {
+                fetchAll(data.previous, rowData);
+            }
+        })
+
+        nextBtn.addEventListener('click', () => {
+            if (data.next) {
+                fetchAll(data.next, rowData);
+            }
+        })
+
+        btnContainer.appendChild(prevBtn)
+        btnContainer.appendChild(nextBtn)
+
     } catch (error) {
         console.error(error);
-        handleError(true, 'Failed to fetch planets');
+        handleError(true, 'Failed to fetch data');
     }
 };
 
