@@ -85,7 +85,7 @@ const fetchShips = async (url) => {
 
         let rowHTML = ``
         tableBody.innerHTML = ``
-        data?.results?.forEach(el => {
+        data.results.forEach(el => {
             const row = document.createElement('tr')
             rowHTML = `
             <td>${el.name}</td>
@@ -124,7 +124,7 @@ const fetchPeople = async (url) => {
 
         let rowHTML = ``
         tableBody.innerHTML = ``
-        data?.results?.forEach(el => {
+        data.results.forEach(el => {
             const row = document.createElement('tr')
             rowHTML = `
                             <td>${el.name}</td>
@@ -162,12 +162,12 @@ const fetchPlanets = async (url) => {
 
         let rowHTML = ``
         tableBody.innerHTML = ``
-        data?.results?.forEach(el => {
+        data.results.forEach(el => {
             const row = document.createElement('tr')
             rowHTML = `
                             <td>${el.name}</td>
-                    <td>${el.population}cm</td>
-                    <td>${el.climate}kg</td>
+                    <td>${el.population}</td>
+                    <td>${el.climate}</td>
                     <td>${el.gravity}</td>
                     <td>${el.terrain}</td>
             `
@@ -209,7 +209,7 @@ planetBtn.addEventListener("click", () => {
     mainContent.style.display = 'block'
     tableTitleSpan.textContent = 'Planet'
 
-    tableHeadRow.innerHTML = personTableColumns
+    tableHeadRow.innerHTML = planetsTableColumns
     fetchPlanets(PLANETS_URL)
 
 })
