@@ -106,6 +106,9 @@ const fetchAll = async (url, rowData) => {
         prevBtn.textContent = 'Previous';
         nextBtn.textContent = 'Next';
 
+        prevBtn.disabled = !data.previous;
+        nextBtn.disabled = !data.next;
+
         prevBtn.addEventListener('click', () => {
             if (data.previous) {
                 fetchAll(data.previous, rowData);
