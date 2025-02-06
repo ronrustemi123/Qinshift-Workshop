@@ -17,7 +17,10 @@
             <span>Person</span>
             <hr>
             <span>Spaceship</span>
+            <hr>
+            <span>Planet</span>
             <img width="14" src="./assets/arrow.svg" alt="">
+
         </div>
         <div class="custom-gradient">
 
@@ -26,6 +29,7 @@
     <section>
         <img src="./assets/person.svg" alt="person image" id="personBtn" width="200">
         <img src="./assets/ship.svg" alt="ship image" id="shipBtn" width="200">
+        <img src="./assets/planet.svg" alt="planet image" id="planetBtn" width="200">
     </section>
     <main>
         <h1 id="scroll-to-title" class="table-title"><span class="table-title-span"></span> Table</h1>
@@ -38,6 +42,21 @@
                 </thead>
                 <tbody></tbody>
             </table>
+            <span id="loader" style="display: none;">
+                <div data-js="astro" class="astronaut">
+                    <div class="head"></div>
+                    <div class="arm arm-left"></div>
+                    <div class="arm arm-right"></div>
+                    <div class="body">
+                        <div class="panel"></div>
+                    </div>
+                    <div class="leg leg-left"></div>
+                    <div class="leg leg-right"></div>
+                    <div class="schoolbag"></div>
+                </div>
+            </span>
+            <span id="error" style="display: none;">
+            </span>
         </div>
         <div class="btn-container">
             <button id="prevBtn">Previous</button>
